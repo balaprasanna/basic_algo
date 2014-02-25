@@ -8,7 +8,7 @@ public class Quick{
     {
         if (hi <= lo) return;
         int  j = partition(a, lo, hi);
-        sort(a, lo, j);
+        sort(a, lo, j-1);
         sort(a, j+1, hi);
     }
     public static int partition(Comparable[] a, int lo, int hi)
@@ -26,6 +26,25 @@ public class Quick{
         }
         exch(a, lo, j);
         return j;
+    }
+    public static void threeWaySort(Comparable[] a)
+    {
+        StdRandom.shuffle(a);
+        threeWaySort(a, 0, a.length-1);
+    }
+    public static void threeWaySort(Comparable[] a, int lo, int hi)
+    {
+        if (hi <= lo) return;
+        Comparable v = a[lo];
+        int lt = lo, gt = hi, i = lo;
+        while(i <= gt)
+        {
+            if (less(a[i], v)) exch(a, lt++, i++);
+            else if(less(v, a[i])) exch(a, i, gt--);
+            else i++;
+        }
+        threeWaySort(a, lo, lt-1);
+        threeWaySort(a, gt+1, hi);
     }
     private static void exch(Comparable[] a, int m, int n)
     {

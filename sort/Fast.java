@@ -22,36 +22,42 @@ public class Fast {
             Point[] copy = Arrays.copyOfRange(points, i+1, N); //
             Point current = points[i];
             Arrays.sort(copy, current.SLOPE_ORDER); //sort the copy , p[i]
+            double[] angs = new double[copy.length];
+            for(int k = 0; k<copy.length; k++) //store the calculated angles
+                angs[k] = current.slopeTo(copy[k]);
+            
             int ctr = 1;
-            for(int j = 0; j< copy.length-1; )
+            for(int j = 0; j< copy.length-1; j++)
             {
-                while (Double.compare(current.slopeTo(copy[j]),current.slopeTo(copy[++j])) == 0 )
+                while (Double.compare(angs[j], angs[j+1]) == 0 )
                 {
+                    j++;
                     ctr++;
-                    if (j == copy.length-1) break;
+                    if (j == copy.length-1)  break;
                 } 
                 if (ctr >= 3)
                 {
                     //redundency?
-                    //qualified 
+                    
+                    //copy the qualified ones to good
+                    Point[] good = new Point[ctr+1];
+                    good[0] = current;
+                    for(int l = 1; l <ctr+1; l++)
+                        good[l] = copy[j-ctr+l];
+                    Arrays.sort(good);
+                    
                     //print and draw the starting point
-                    if ((j == copy.length-1)&& (Double.compare(current.slopeTo(copy[j-1]),current.slopeTo(copy[j])) == 0 )) j++;
-                    StdOut.print(current.toString() + " -> "); 
-                    current.draw();
-                    current.drawTo(copy[j-ctr]);
-                    for (int k = j-ctr; k < j-1; k++)
+                    for(int l = 0; l< good.length-1; l++)
                     {
-                        StdOut.print(copy[k].toString() + " -> ");
-                        copy[k].draw();
-                        copy[k].drawTo(copy[k+1]);
+                        good[l].draw();
+                        good[l].drawTo(good[l+1]);
+                        StdOut.print(good[l].toString() + " -> "); 
                     }
-                    copy[j-1].draw();    
-                    StdOut.println(copy[j-1].toString());
+                    good[good.length-1].draw();
+                    StdOut.println(good[good.length-1].toString()); 
                 }
                 ctr = 1; //counter reset
             }
         }
-        
-        
     }
 }

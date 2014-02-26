@@ -1,3 +1,4 @@
+import java.util.Arrays;
 public class Brute {
    public static void main(String[] args)
    {
@@ -38,18 +39,20 @@ public class Brute {
                             //StdOut.println(n);
                             if(Double.compare(s2, p.slopeTo(points[n])) == 0)
                             {
-                                //print points to outputs
-                                StdOut.print(points[i].toString() + " -> ");
-                                StdOut.print(points[j].toString() + " -> ");
-                                StdOut.print(points[m].toString() + " -> ");
-                                StdOut.println(points[n].toString());
-                                p.draw();
-                                p.drawTo(points[j]);
-                                points[j].draw();
-                                points[j].drawTo(points[m]);
-                                points[m].draw();
-                                points[m].drawTo(points[n]);
-                                points[n].draw();
+                                Point[] good = new Point[4];
+                                good[0] = points[i];
+                                good[1] = points[j];
+                                good[2] = points[m];
+                                good[3] = points[n];
+                                Arrays.sort(good);
+                                for(int k=0; k < 3; k++)
+                                {
+                                    good[k].draw();
+                                    good[k].drawTo(good[k+1]);
+                                    StdOut.print(good[k].toString() + " -> ");
+                                }
+                                good[3].draw();
+                                StdOut.println(good[3].toString());
                             } 
                         }
                     }

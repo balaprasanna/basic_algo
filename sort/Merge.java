@@ -24,10 +24,14 @@ public class Merge {
     private void sort(Comparable[] a, Comparable[] aux, 
                       int lo, int hi)
     {
+        //practical improvement: use insertion sort instead of merge sort for 
+        //tiny arrays
         if (hi < lo) return;
         int mid = (lo + hi)/2;
         sort(a, aux, lo, mid);
         sort(a, aux, mid+1,hi);
+        //practical improvement: array already sorted
+        if (a[mid].compareTo(a[mid+1])<0) return;
         merge(a, aux, lo, mid, hi);
     }
     
@@ -35,5 +39,15 @@ public class Merge {
     {
         aux = new Comparable[a.length];
         sort(a,aux,0,a.length-1);
+    }
+    
+    public void bottomUpMerge(Comparable[] a)
+    {
+        //This is the bottom up method of coding up merge, no recursive
+        int N = a.length;
+        aux = new Comparable[N];
+        for (int sz=1; sz<N; sz = sz + sz)
+            for (int lo = 0; lo < N; lo=lo+sz)
+                merge(a, aux, lo, lo+sz-1, Math.min(lo+sz+sz-1, N));
     }
 }

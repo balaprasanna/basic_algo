@@ -44,6 +44,7 @@ public class Merge {
     public void bottomUpMerge(Comparable[] a)
     {
         //This is the bottom up method of coding up merge, no recursive
+        //lgN passes through the array altogether
         int N = a.length;
         aux = new Comparable[N];
         for (int sz=1; sz<N; sz = sz + sz)

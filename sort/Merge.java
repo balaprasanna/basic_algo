@@ -1,38 +1,39 @@
 public class Merge {
     private Comparable[] aux = null;
-    public void sort(Comparable[] a)
-    { 
-        aux = new Comparable[a.length]; 
-        sort(a, aux, 0, a.length-1);
-    }
-    public void sort(Comparable[] a, Comparable[] aux, int lo, int hi)
+    private void merge(Comparable[] a, Comparable[] aux,
+                       int lo, int mid, int hi)
     {
-        if( hi <= lo) return;
-        int mid = lo + (hi - lo)/2;
-        sort(a, aux, lo, mid);
-        sort(a, aux, mid+1, hi);
-        merge(a, aux, lo, hi, mid);
-    }
-    public void merge(Comparable[] a, Comparable[] aux, int lo, int hi, int mid)
-    {
-        //assert isSorted(a, lo, mid);
-        //assert isSorted(a, mid, hi);
+        assert isSorted(a,lo,mid);
+        assert isSorted(a,mid+1,hi);
         
-        for(int k = lo; k<hi; k++)
+        for (int k=lo; k<=hi; k++)
             aux[k] = a[k];
-        
-        int i = lo, j = mid+1;
-        for(int k = lo; k < hi; k++)
+        int i = lo;
+        int j = mid+1;
+        for (int k=lo; k<=hi; k++)
         {
-            if (i > mid) a[k] = aux[j++];
-            else if (j > hi) a[k] = aux[i++];
-            else if (less(aux[j],aux[i])) a[k] = aux[j++];
-            else a[k] = aux[i++];
+            if (i>mid) a[k] = aux[j++];
+            else if (j>hi) a[k] = aux[i++];
+            else if (aux[i].compareTo(aux[j])<0) a[k]=aux[i++];
+            else a[k]=aux[j++];
         }
+        
+        assert isSorted(a,lo,hi);
     }
-    public boolean less(Comparable a , Comparable b)
+    
+    private void sort(Comparable[] a, Comparable[] aux, 
+                      int lo, int hi)
     {
-        if (a.compareTo(b) < 0) return true;
-        else return false;
+        if (hi < lo) return;
+        int mid = (lo + hi)/2;
+        sort(a, aux, lo, mid);
+        sort(a, aux, mid+1,hi);
+        merge(a, aux, lo, mid, hi);
+    }
+    
+    public void sort(Comparable[] a)
+    {
+        aux = new Comparable[a.length];
+        sort(a,aux,0,a.length-1);
     }
 }

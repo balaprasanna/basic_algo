@@ -23,7 +23,7 @@ public class Solver{
                 }
             SearchNode rmTwin = (SearchNode)pq_twin.delMin();
             for (Board neighbour : rmTwin.getBoard().neighbors())
-                if (rmTwin.pre == null || !neighbour.equals(rmTwin.getPreviousBoard())){
+                if (rmTwin.getPre() == null || !neighbour.equals(rmTwin.getPreviousBoard())){
                     SearchNode newNode = new SearchNode(neighbour, rmTwin, rmTwin.getMoves() + 1);
                     pq_twin.insert(newNode);
                 }

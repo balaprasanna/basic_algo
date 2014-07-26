@@ -42,21 +42,26 @@ public class Board{
     public boolean isGoal(){ return this.hamming() == 0;}
     // a board obtained by exchanging two adjacent blocks in the same row
     public Board twin(){
-        int[][] newb = blocks.clone();
-        for (int i = 0; i < N; i++)
+        int[][] newb = new int[N][N];
+        makeCopy(newb);
+        
+        boolean ch = false;
+        for (int i = 0; i < N; i++){
             for (int j = 0; j < N; j++)
             if (blocks[i][j] != 0 && (j+1 < N) && blocks[i][j+1] != 0){
                 newb[i][j] = blocks[i][j+1];
                 newb[i][j+1] = blocks[i][j];
+                ch = true;
                 break; 
-            } 
-        return new Board(newb);
+            }
+            if (ch) break;
+        }
+        return (new Board(newb));
     }
     // does this board equal y?
     public boolean equals(Object y){
-        boolean r = true;
         Board other = (Board) y;
-        return r;
+        return this.toString().equals(other.toString());
     }
     // all neighboring boards
     public Iterable<Board> neighbors(){
@@ -64,31 +69,35 @@ public class Board{
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++)
                 if (blocks[i][j] == 0){
-                    int[][] newb;
+                    
                     if (i > 0)
                     {
-                        newb = blocks.clone();
+                        int[][] newb = new int[N][N];
+                        makeCopy(newb);
                         newb[i][j] = newb[i-1][j];
                         newb[i-1][j] = 0;
                         nq.enqueue(new Board(newb));
                     }
                     if (j > 0)
                     {
-                        newb = blocks.clone();
+                        int[][] newb = new int[N][N];
+                        makeCopy(newb);
                         newb[i][j] = newb[i][j-1];
                         newb[i][j-1] = 0;
                         nq.enqueue(new Board(newb));
                     }
                     if (i < N-1)
                     {
-                        newb = blocks.clone();
+                        int[][] newb = new int[N][N];
+                        makeCopy(newb);
                         newb[i][j] = newb[i+1][j];
                         newb[i+1][j] = 0;
                         nq.enqueue(new Board(newb));
                     }
                     if (j < N-1)
                     {
-                        newb = blocks.clone();
+                        int[][] newb = new int[N][N];
+                        makeCopy(newb);
                         newb[i][j] = newb[i][j+1];
                         newb[i][j+1] = 0;
                         nq.enqueue(new Board(newb));
@@ -108,5 +117,10 @@ public class Board{
             s.append("\n");
         }
         return s.toString();
+    }
+    private void makeCopy(int[][] newb){
+        for (int i = 0; i < N; i++)
+            for (int j = 0; j < N; j++)
+            newb[i][j] = blocks[i][j];
     }
 }

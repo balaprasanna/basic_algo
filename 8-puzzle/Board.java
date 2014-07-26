@@ -3,11 +3,15 @@ import java.lang.Math;
 public class Board{
     private int[][] blocks;
     private int N;
+    private int h;
+    private int m;
     // construct a board from an N-by-N array of blocks
     // (where blocks[i][j] = block in row i, column j)
     public Board(int[][] blocks){
         this.blocks = blocks;
         this.N = blocks.length;
+        this.h = null;
+        this.m = null;
     }
     // board dimension N
     public int dimension(){
@@ -15,7 +19,8 @@ public class Board{
     }
     // distance: number of blocks out of place
     public int hamming(){
-        int h = 0;
+        if (h != null) return h;
+        h = 0;
         int correct = 1;
         int fin = N*N;
         for (int i = 0; i < N; i++)
@@ -23,8 +28,8 @@ public class Board{
         {
             if (blocks[i][j] != correct) h++;
             correct++;
-            if (correct == fin) correct = 0;
         }
+        h--; //minus the '0' in wrong position
         return h;
     }
     // distance: sum of Manhattan distances between blocks and goal

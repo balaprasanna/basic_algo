@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 public class Solver{
     //find a solution to the initial board(A* algorithm)
     //must use MinPQ from alg4.jar
@@ -11,30 +13,31 @@ public class Solver{
         SearchNode twinInitNode = new SearchNode (initial.twin());
         pq.insert(initNode);
         pq_twin.insert(twinInitNode);
-        while ( !pq.min().isGoal() && !pq_twin.min().isGoal()){
-            SearchNode rm = pq.delMin();
-            for (Board neighbour : rm.neighbors())
-                if (rm.pre == null || !neighbour.equals(rm.getPreviousBoard())){
+        while ( !((SearchNode)pq.min()).getBoard().isGoal() 
+                   && !((SearchNode)pq_twin.min()).getBoard().isGoal()){
+            SearchNode rm = (SearchNode)pq.delMin();
+            for (Board neighbour : rm.getBoard().neighbors())
+                if (rm.getPre() == null || !neighbour.equals(rm.getPreviousBoard())){
                     SearchNode newNode = new SearchNode(neighbour, rm, rm.getMoves() + 1);
                     pq.insert(newNode);
                 }
-            SearchNode rmTwin = pq_twin.delMin();
-            for (Board neighbour : rmTwin.neighbors())
+            SearchNode rmTwin = (SearchNode)pq_twin.delMin();
+            for (Board neighbour : rmTwin.getBoard().neighbors())
                 if (rmTwin.pre == null || !neighbour.equals(rmTwin.getPreviousBoard())){
                     SearchNode newNode = new SearchNode(neighbour, rmTwin, rmTwin.getMoves() + 1);
                     pq_twin.insert(newNode);
                 }
         }
-        if (pq_twin.min().isGoal()) 
+        if (((SearchNode)pq_twin.min()).getBoard().isGoal()) 
         {
             isSolvable = false;
             moves = -1;
         }else{
             isSolvable = true;
-            SearchNode sn = pq.min();
+            SearchNode sn = (SearchNode)pq.min();
             moves = sn.getMoves();
             solution = new Stack();
-            for (int i = 0; i <= N; i++)
+            for (int i = 0; i <= moves; i++)
             {
                 solution.push(sn.getBoard());
                 sn = sn.getPre();
@@ -94,20 +97,21 @@ public class Solver{
         }
         
         public int m_priority () {
-            return this.moves + this.current.manhattan;
+            return this.moves + this.current.manhattan();
         }
         
-        public int compareTo (SearchNode other) {
-            int t = this.h_priority();
-            int o = other.h_priority();
-            if (t > o) return 1;
-            else if (t = 0) return 0;
-            else return -1;
+        public int compareTo (Object other){
+            SearchNode y = (SearchNode) other;
+            int xp = this.h_priority();
+            int yp = y.h_priority();
+            if (xp > yp) return 1;
+            if ( xp == yp) return 0;
+            return -1;
         }
         
         public Board getBoard() { return current; }
         public Board getPreviousBoard() { return this.pre.getBoard(); }
-        public Board getMoves() { return moves; }
-        public Board getPre() { return pre; }
+        public int getMoves() { return moves; }
+        public SearchNode getPre() { return pre; }
     }
 }

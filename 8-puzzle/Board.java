@@ -23,7 +23,7 @@ public class Board{
         {
             if (blocks[i][j] != correct) h++;
             correct++;
-            if (correnct == fin) correct = 0;
+            if (correct == fin) correct = 0;
         }
         return h;
     }
@@ -39,7 +39,7 @@ public class Board{
         return m;
     }
     // is this board the goal board?
-    public boolean isGoal(){ return hamming == 0;}
+    public boolean isGoal(){ return this.hamming() == 0;}
     // a board obtained by exchanging two adjacent blocks in the same row
     public Board twin(){
         int[][] newb = blocks.clone();
@@ -47,14 +47,15 @@ public class Board{
             for (int j = 0; j < N; j++)
             if (blocks[i][j] != 0 && (j+1 < N) && blocks[i][j+1] != 0){
                 newb[i][j] = blocks[i][j+1];
-                newb[i][j+1] = blocks[i][j]; 
-            } break; 
+                newb[i][j+1] = blocks[i][j];
+                break; 
+            } 
         return new Board(newb);
     }
     // does this board equal y?
     public boolean equals(Object y){
         boolean r = true;
-        Board other = (int[][]) y;
+        Board other = (Board) y;
         return r;
     }
     // all neighboring boards
@@ -62,39 +63,38 @@ public class Board{
         Queue nq = new Queue();
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++)
-                if (blocks[i][j] == 0) break;
-        if (i > 0)
-        {
-            int[][] newb = blocks.clone();
-            newb[i][j] = newb[i-1][j];
-            newb[i-1][j] = 0;
-            nq.enqueue(new Board(newb));
-            newb = null;
-        }
-        if (j > 0)
-        {
-            int[][] newb = blocks.clone();
-            newb[i][j] = newb[i][j-1];
-            newb[i][j-1] = 0;
-            nq.enqueue(new Board(newb));
-            newb = null;
-        }
-        if (i < N-1)
-        {
-            int[][] newb = blocks.clone();
-            newb[i][j] = newb[i+1][j];
-            newb[i+1][j] = 0;
-            nq.enqueue(new Board(newb));
-            newb = null;
-        }
-        if (j < N-1)
-        {
-            int[][] newb = blocks.clone();
-            newb[i][j] = newb[i][j+1];
-            newb[i][j+1] = 0;
-            nq.enqueue(new Board(newb));
-            newb = null;
-        }
+                if (blocks[i][j] == 0){
+                    int[][] newb;
+                    if (i > 0)
+                    {
+                        newb = blocks.clone();
+                        newb[i][j] = newb[i-1][j];
+                        newb[i-1][j] = 0;
+                        nq.enqueue(new Board(newb));
+                    }
+                    if (j > 0)
+                    {
+                        newb = blocks.clone();
+                        newb[i][j] = newb[i][j-1];
+                        newb[i][j-1] = 0;
+                        nq.enqueue(new Board(newb));
+                    }
+                    if (i < N-1)
+                    {
+                        newb = blocks.clone();
+                        newb[i][j] = newb[i+1][j];
+                        newb[i+1][j] = 0;
+                        nq.enqueue(new Board(newb));
+                    }
+                    if (j < N-1)
+                    {
+                        newb = blocks.clone();
+                        newb[i][j] = newb[i][j+1];
+                        newb[i][j+1] = 0;
+                        nq.enqueue(new Board(newb));
+                    }
+                    break;
+                    }
         return nq;
     }
     // string representation of the board (in required output format)

@@ -13,6 +13,7 @@ public class Solver {
         SearchNode twinInitNode = new SearchNode (initial.twin());
         pq.insert(initNode);
         pqTwin.insert(twinInitNode);
+        Board test= pq.min().bd;
         while (!pq.min().bd.isGoal() && !pqTwin.min().bd.isGoal()) {
             SearchNode rm = pq.delMin();
             if (rm.pre == null) {
@@ -42,6 +43,7 @@ public class Solver {
                     }
             }
         }
+        Board test2 = pqTwin.min().bd;
         if (pqTwin.min().bd.isGoal()) 
         {
             isSolvable = false;

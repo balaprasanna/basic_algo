@@ -1,15 +1,21 @@
 public class Board {
     private int[][] blocks;
     private int N;
-    private int h;
+    //private int h;
     private int m;
     // construct a board from an N-by-N array of blocks
     // (where blocks[i][j] = block in row i, column j)
     public Board(int[][] blocks) {
         this.blocks = blocks;
         this.N = blocks.length;
-        this.h = -1;
+        //this.h = -1;
         this.m = -1;
+        manhattan();
+    }
+    private Board(int[][] blocks, int manh){
+        this.blocks = blocks;
+        this.N = blocks.length;
+        this.m = manh;
     }
     // board dimension N
     public int dimension() {
@@ -62,7 +68,8 @@ public class Board {
             }
             if (ch) break;
         }
-        return (new Board(newb));
+        Board test = new Board(newb);
+        return (test);
     }
     // does this board equal y?
     public boolean equals(Object y) {
@@ -70,6 +77,7 @@ public class Board {
         if (y == this) return true;
         if (!(y instanceof Board)) return false;
         Board other = (Board) y;
+        //TODO: modification
         return this.toString().equals(other.toString());
     }
     // all neighboring boards
@@ -78,18 +86,24 @@ public class Board {
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++)
                 if (blocks[i][j] == 0) {
-                    
+                    int[][] newb;
+                    int x, y;
+                    int newManh;
+                    Board newBoard;
                     if (i > 0)
                     {
-                        int[][] newb = new int[N][N];
+                        newb = new int[N][N];
                         makeCopy(newb);
                         newb[i][j] = newb[i-1][j];
                         newb[i-1][j] = 0;
-                        nq.enqueue(new Board(newb));
+                        x = (newb[i][j] - 1)/N;
+                        newManh = m - Math.abs(x-i+1) + Math.abs(x-i);
+                        newBoard = new Board(newb, newManh);
+                        nq.enqueue(newBoard);
                     }
                     if (j > 0)
                     {
-                        int[][] newb = new int[N][N];
+                        newb = new int[N][N];
                         makeCopy(newb);
                         newb[i][j] = newb[i][j-1];
                         newb[i][j-1] = 0;
@@ -97,7 +111,7 @@ public class Board {
                     }
                     if (i < N-1)
                     {
-                        int[][] newb = new int[N][N];
+                        newb = new int[N][N];
                         makeCopy(newb);
                         newb[i][j] = newb[i+1][j];
                         newb[i+1][j] = 0;
@@ -105,7 +119,7 @@ public class Board {
                     }
                     if (j < N-1)
                     {
-                        int[][] newb = new int[N][N];
+                        newb = new int[N][N];
                         makeCopy(newb);
                         newb[i][j] = newb[i][j+1];
                         newb[i][j+1] = 0;

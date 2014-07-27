@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Board {
     private int[][] blocks;
     private int N;
@@ -74,10 +76,16 @@ public class Board {
     public boolean equals(Object y) {
         if (y == null) return false;
         if (y == this) return true;
-        if (!(y instanceof Board)) return false;
-        Board other = (Board) y;
+        if (this.getClass() != y.getClass()) return false;
+        Board that = (Board) y;
         //TODO: modification
-        return this.toString().equals(other.toString());
+        //return this.toString().equals(other.toString());
+        if (this.m != that.m) return false;
+        if (this.N != that.N) return false;
+        for (int i = 0; i < N; i++)
+            if (! Arrays.equals(this.blocks[i], that.blocks[i]))
+                return false;
+        return true;
     }
     // all neighboring boards
     public Iterable<Board> neighbors() {

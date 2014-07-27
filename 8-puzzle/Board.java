@@ -18,6 +18,7 @@ public class Board {
         this.blocks = blocks;
         this.N = blocks.length;
         this.m = manh;
+        this.h = -1;
     }
     // board dimension N
     public int dimension() {

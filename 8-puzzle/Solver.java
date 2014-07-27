@@ -7,15 +7,14 @@ public class Solver {
     private int moves;
     private Stack solution;
     public Solver(Board initial) {
-        MinPQ pq = new MinPQ();
-        MinPQ pqTwin = new MinPQ();
+        MinPQ<SearchNode> pq = new MinPQ<SearchNode>();
+        MinPQ<SearchNode> pqTwin = new MinPQ<SearchNode>();
         SearchNode initNode = new SearchNode (initial);
         SearchNode twinInitNode = new SearchNode (initial.twin());
         pq.insert(initNode);
         pqTwin.insert(twinInitNode);
-        while (!((SearchNode)pq.min()).bd.isGoal() 
-                   && !((SearchNode)pqTwin.min()).bd.isGoal()) {
-            SearchNode rm = (SearchNode)pq.delMin();
+        while (!pq.min().bd.isGoal() && !pqTwin.min().bd.isGoal()) {
+            SearchNode rm = pq.delMin();
             if (rm.pre == null) {
                 for (Board neighbour : rm.bd.neighbors() ){
                     SearchNode newNode = new SearchNode(neighbour, rm, 1);
@@ -29,7 +28,7 @@ public class Solver {
                     }
             }
             
-            SearchNode rmTwin = (SearchNode)pqTwin.delMin();
+            SearchNode rmTwin = pqTwin.delMin();
             if (rmTwin.pre == null) {
                 for (Board neighbour : rmTwin.bd.neighbors() ){
                     SearchNode newNode = new SearchNode(neighbour, rmTwin, 1);
@@ -43,15 +42,15 @@ public class Solver {
                     }
             }
         }
-        if (((SearchNode)pqTwin.min()).bd.isGoal()) 
+        if (pqTwin.min().bd.isGoal()) 
         {
             isSolvable = false;
             moves = -1;
         }else {
             isSolvable = true;
-            SearchNode sn = (SearchNode)pq.min();
+            SearchNode sn = pq.min();
             moves = sn.moves;
-            solution = new Stack();
+            solution = new Stack<Board>();
             for (int i = 0; i <= moves; i++)
             {
                 solution.push(sn.bd);
@@ -106,10 +105,10 @@ public class Solver {
             this.pre = pre;
             this.moves = moves;
         }
-        
+        /*
         public int hPriority () {
             return this.moves + this.bd.hamming();
-        }
+        }*/
         
         public int mPriority () {
             return this.moves + this.bd.manhattan();

@@ -16,6 +16,7 @@ public class Board {
         return N;
     }
     // distance: number of blocks out of place
+    /*
     public int hamming() {
         if (h > -1) return h;
         h = 0;
@@ -29,7 +30,7 @@ public class Board {
         }
         h--; //minus the '0' in wrong position
         return h;
-    }
+    }*/
     // distance: sum of Manhattan distances between blocks and goal
     public int manhattan() {
         if (m > -1) return m;
@@ -44,7 +45,7 @@ public class Board {
         return m;
     }
     // is this board the goal board?
-    public boolean isGoal() { return this.hamming() == 0; }
+    public boolean isGoal() { return this.m == 0; }
     // a board obtained by exchanging two adjacent blocks in the same row
     public Board twin() {
         int[][] newb = new int[N][N];
@@ -73,7 +74,7 @@ public class Board {
     }
     // all neighboring boards
     public Iterable<Board> neighbors() {
-        Queue nq = new Queue();
+        Queue<Board> nq = new Queue<Board>();
         for (int i = 0; i < N; i++)
             for (int j = 0; j < N; j++)
                 if (blocks[i][j] == 0) {

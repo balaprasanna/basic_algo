@@ -68,8 +68,7 @@ public class Board {
             }
             if (ch) break;
         }
-        Board test = new Board(newb);
-        return (test);
+        return (new Board(newb));
     }
     // does this board equal y?
     public boolean equals(Object y) {
@@ -96,6 +95,7 @@ public class Board {
                         makeCopy(newb);
                         newb[i][j] = newb[i-1][j];
                         newb[i-1][j] = 0;
+                        //update manhattan distance
                         x = (newb[i][j] - 1)/N;
                         newManh = m - Math.abs(x-i+1) + Math.abs(x-i);
                         newBoard = new Board(newb, newManh);
@@ -107,7 +107,11 @@ public class Board {
                         makeCopy(newb);
                         newb[i][j] = newb[i][j-1];
                         newb[i][j-1] = 0;
-                        nq.enqueue(new Board(newb));
+                        //update manhattan distance
+                        y = (newb[i][j] - 1)%N;
+                        newManh = m - Math.abs(y-j+1) + Math.abs(y-j);
+                        newBoard = new Board(newb, newManh);
+                        nq.enqueue(newBoard);
                     }
                     if (i < N-1)
                     {
@@ -115,7 +119,11 @@ public class Board {
                         makeCopy(newb);
                         newb[i][j] = newb[i+1][j];
                         newb[i+1][j] = 0;
-                        nq.enqueue(new Board(newb));
+                        //update manhattan distance
+                        x = (newb[i][j] - 1)/N;
+                        newManh = m - Math.abs(x-i-1) + Math.abs(x-i);
+                        newBoard = new Board(newb, newManh);
+                        nq.enqueue(newBoard);
                     }
                     if (j < N-1)
                     {
@@ -123,7 +131,11 @@ public class Board {
                         makeCopy(newb);
                         newb[i][j] = newb[i][j+1];
                         newb[i][j+1] = 0;
-                        nq.enqueue(new Board(newb));
+                        //update manhattan distance
+                        y = (newb[i][j] - 1)%N;
+                        newManh = m - Math.abs(y-j-1) + Math.abs(y-j);
+                        newBoard = new Board(newb, newManh);
+                        nq.enqueue(newBoard);
                     }
                     break;
                     }

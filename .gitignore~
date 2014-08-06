@@ -2,3 +2,5 @@
 *.zip
 8puzzle/
 *.txt
+*.class~
+.gitignore~

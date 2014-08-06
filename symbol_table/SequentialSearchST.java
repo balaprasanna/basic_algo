@@ -28,11 +28,12 @@ public SequentialSearchST<Key, Value>{
     
     //no recursive implementation here
     public void delete(Key key){
+        if (size() == 0) return;
         Node pre = null;
         for  (Node x = first; x!=null; x = x.next){
             if (key.equals(x.key)){
-                if (pre == null) {first = x.next; return; }
-                else {previous = x.next; return;}
+                if (pre == null) {first = x.next; N --; return; }
+                else {previous = x.next; N-- ;return;}
             }
             pre = x;
         }

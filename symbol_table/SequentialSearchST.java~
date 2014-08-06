@@ -1,0 +1,13 @@
+public SequentialSearchST<Key, Value>{
+    private class Node{
+        private Key key;
+        private Value value;
+        private Node next;
+        
+        public Node (Key key, Value value, Node next){
+            this.key = key;
+            this.value = value;
+            this.next = next;
+        }
+    }
+}

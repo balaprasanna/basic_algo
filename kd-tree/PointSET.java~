@@ -1,7 +1,5 @@
 public class PointSET {
-    private 
-    // construct an empty set of points
-   public PointSET()                               
+   public PointSET()                               // construct an empty set of points
    public boolean isEmpty()                        // is the set empty?
    public int size()                               // number of points in the set
    public void insert(Point2D p)                   // add the point p to the set (if it is not already in the set)

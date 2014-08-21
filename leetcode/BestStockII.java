@@ -1,5 +1,5 @@
 //leetcode, DP
-//this is the dummy O(n^s) method which exceeds the time limits of test cases
+//this is the dummy O(n^2) method which exceeds the time limits of test cases
 
 public class BestStockII {
 	public static int maxProfit(int[] prices) {

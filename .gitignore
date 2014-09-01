@@ -5,3 +5,6 @@
 *.txt
 *.java~
 .gitignore~
+.classpath
+.project
+.gitignore

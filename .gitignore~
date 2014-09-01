@@ -1,6 +1,9 @@
 *.class
+*.class~
 *.zip
 8puzzle/
 *.txt
-*.class~
+*.java~
 .gitignore~
+.classpath
+.project

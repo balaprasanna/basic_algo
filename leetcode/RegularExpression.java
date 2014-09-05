@@ -1,7 +1,7 @@
 //leetcode
 public class RegularExpression {
 	public static boolean isMatch(String s, String p) {
-        int i = 0, j = 0;
+		int i = 0, j = 0;
         if (s == null) return p == null;
         if (s.length() == 0 && p.length() == 0) return true;
         
@@ -9,8 +9,10 @@ public class RegularExpression {
             if (j == p.length()) return false;
             if (s.charAt(i) == p.charAt(j)){
                 if (j+1<p.length() && p.charAt(j+1) == '*'){
-                    while(i+1<s.length() && s.charAt(i) == s.charAt(i+1)) i++;
-                    i++;
+                    while(i+1<s.length()){
+                        if (s.charAt(i) == s.charAt(i+1)) i++;
+                        else {i++; break;}
+                    }
                     if (j+1 == p.length() -1){
                         if (i == s.length() -1) return true;
                         else return false;
@@ -28,11 +30,15 @@ public class RegularExpression {
             }else if (j+2<p.length() && p.charAt(j+1)=='*') j=j+2;
             else return false;
         }
+        if (j < p.length()){
+        	if (j+1 == p.length()-1 && p.charAt(j+1)=='*')return true;
+        	else return false;
+        }
         return true;
     }
 	public static void main (String[] args){
-		String s = "aab";
-		String p = "c*a*b";
+		String s = "aaa";
+		String p = "aaab*";
 		System.out.print(isMatch(s,p));
 	}
 }

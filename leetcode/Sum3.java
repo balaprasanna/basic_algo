@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 
 //3sum
+//第一次使用prune
+//k sum 问题lower bound: O(n^ceil(k/2))
+//so we can't do better than O(n^2)
 public class Sum3 {
 	public static List<List<Integer>> threeSum(int[] num) {
 		Arrays.sort(num);

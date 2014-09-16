@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 
 //substring with concatenation of all words
-//solve based on minimum windows
+//solve based on minimum windows 46
 public class SubStringConcatenation {
 	public static List<Integer> findSubstring(String S, String[] L) {
         int begin = -1;

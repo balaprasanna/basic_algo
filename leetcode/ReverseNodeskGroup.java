@@ -22,5 +22,4 @@ public class ReverseNodeskGroup {
         if(tail.next != null)
             tail.next = reverseKGroup(tail.next, k);
         return newhead;
-    }
-}
+    }}

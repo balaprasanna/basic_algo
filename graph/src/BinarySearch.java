@@ -5,6 +5,7 @@ public class BinarySearch {
 		return search(key, a, 0, a.length-1);
 	}
 	public int search(int key, int[]a, int low, int high){
+		if(low > high) return -1;
 		int mid = (low+high)/2;
 		if(a[mid] == key) 
 			return mid;

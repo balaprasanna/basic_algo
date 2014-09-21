@@ -30,4 +30,23 @@ public class RotateImage {
         }
         solveRec(i+1, j+1, n-2);
     }
+    // a smarter way
+    //先上下倒置，再左右翻转
+    public void rotate2(int[][] matrix) {
+        if(matrix == null) return;
+        int n = matrix[0].length;
+        for(int i = 0 ; i < n/2; i++){
+            int[] tmp = matrix[i];
+            matrix[i] = matrix[n-1-i];
+            matrix[n-1-i] = tmp;
+        }
+        for(int j = 0; j < n; j++)
+            for(int i = j+1; i<n; i++){
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = tmp;
+            }
+        
+        return;
+    }
 }

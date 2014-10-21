@@ -50,4 +50,40 @@ public class InsertInterval {
 		      Interval() { start = 0; end = 0; }
 		      Interval(int s, int e) { start = s; end = e; }
 		 }
+	//2nd time
+	public List<Interval> insert2(List<Interval> intervals, Interval newInterval) {
+	        if(intervals.size() == 0)
+	            intervals.add(newInterval);
+	        else{
+	            int p = -1, q = -1;
+	            for(int i = 0; i < intervals.size(); i++){
+	                if(p == -1 && intervals.get(i).end >= newInterval.start)
+	                    p = i;
+	                if(q == -1 && intervals.get(i).start > newInterval.end){
+	                    q = i;
+	                    if(i == 0){
+	                        intervals.add(0, newInterval);
+	                        return intervals;
+	                    }
+	                }
+	                if(i == intervals.size()-1){
+	                    if(p == -1){
+	                        intervals.add(newInterval);
+	                        return intervals;
+	                    }else if(q == -1)
+	                        q = intervals.size();
+	                }
+	                if(p == q && p > -1){
+	                    intervals.add(p, newInterval);
+	                    return intervals;
+	                }
+	            }
+	            newInterval.start = Math.min(newInterval.start, intervals.get(p).start);
+	            newInterval.end = Math.max(newInterval.end, intervals.get(q-1).end);
+	            for(int i = p; i < q; i++)
+	                intervals.remove(p);
+	            intervals.add(p,newInterval);
+	        }
+	        return intervals;
+	    }
 }

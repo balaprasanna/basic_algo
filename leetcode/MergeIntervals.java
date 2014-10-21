@@ -51,4 +51,33 @@ public class MergeIntervals {
 		 Interval() { start = 0; end = 0; }
 		  Interval(int s, int e) { start = s; end = e; }
 	}
+	//2nd round code
+	public List<Interval> merge(List<Interval> intervals) {
+	        if(intervals.size() <= 1) return intervals;
+	        Collections.sort(intervals, new Comparator<Interval>(){
+	            @Override
+	            public int compare(Interval p, Interval q){
+	                if(p.start < q.start)
+	                    return -1;
+	                else if (p.start == q.start)
+	                    return 0;
+	                else
+	                    return 1;
+	            }
+	        });
+	        int k = 0;
+	        for(int i = 1; i<intervals.size(); i++){
+	            Interval cur = intervals.get(i);
+	            while(intervals.get(k).end >= cur.start){
+	                if(intervals.get(k).end < cur.end)
+	                    intervals.get(k).end = cur.end;
+	                intervals.remove(i);
+	                if(i < intervals.size())
+	                    cur = intervals.get(i);
+	                else break;
+	            }
+	            k = i;
+	        }
+	        return intervals;
+	    }
 }

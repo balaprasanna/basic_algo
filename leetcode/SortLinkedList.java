@@ -1,95 +1,67 @@
 //bottom-up merge sort
-//non-recursive way
+//2周目，进击的AC
 public class SortLinkedList {
-	class Pair {
-	      public ListNode head;
-	      public ListNode tail;
-	      public Pair(ListNode head, ListNode tail) {
-	          this.head = head;
-	          this.tail = tail;
-	      }
-	  }    
-
-	  private Pair merge(ListNode l1, ListNode t1, ListNode l2, ListNode t2) {
-	        ListNode head, tail;
-	        ListNode p1 = l1, p2 = l2;
-	        if (l1 == null) return new Pair(l2, t2);
-	        if (l2 == null) return new Pair(l1, t1);
-	        if (l1.val < l2.val) {
-	            head = l1;
-	            p1 = p1.next;
-	        } else {
-	            head = l2;
-	            p2 = p2.next;
-	        }
-	        tail = head;
-	        while (p1 != null && p2 != null) {
-	            ListNode tmp;
-	            if (p1.val < p2.val) {
-	                tmp = p1.next;
-	                tail.next = p1;
-	                p1 = tmp;
-	            } else {
-	                tmp = p2.next;
-	                tail.next = p2;
-	                p2 = tmp;
-	            }
-	            tail = tail.next;
-	        }
-	        if (p1 != null) {
-	            tail.next = p1;
-	        } else {
-	            tail.next = p2;
-	        }
-	        while (tail.next != null) 
-	            tail = tail.next;
-
-	        return new Pair(head, tail);
-	    }
-	    private ListNode jump(ListNode start, int len) {
-	        ListNode ans = start;
-	        for (int i=0; i<len; i++) {
-	            if (ans != null) {
-	                ans = ans.next;
-	            } else {
-	                break;
-	            }
-	        }
-	        return ans;
-	    }
-	    public ListNode sortList(ListNode head) {
-	        int len = 1;
-	        ListNode fstHead, fstTail, sndHead, sndTail, lBound, rBound, dummyHead;
-	        boolean changed = true;
-	        dummyHead = new ListNode(0);
-	        dummyHead.next = head;
-	        while (changed) {
-	            changed = false;
-	            lBound = dummyHead;
-	            fstHead = jump(lBound, 1);
-	            fstTail = jump(fstHead, len-1);
-	            sndHead = jump(fstTail, 1);
-	            sndTail = jump(sndHead, len-1);
-	            rBound = jump(sndTail, 1);
-
-	            while (sndHead != null) {
-	                changed = true;
-	                if (fstTail != null) fstTail.next = null;
-	                if (sndTail != null) sndTail.next = null;
-	                Pair p = merge(fstHead, fstTail, sndHead, sndTail);
-	                if (lBound != null) lBound.next = p.head;
-	                if (p.tail != null) p.tail.next = rBound;
-	                lBound = p.tail;
-	                fstHead = jump(lBound, 1);
-	                fstTail = jump(fstHead, len-1);
-	                sndHead = jump(fstTail, 1);
-	                sndTail = jump(sndHead, len-1);
-	                rBound = jump(sndTail, 1);
-	            }
-
-	            len *= 2;
-	        }
-
-	        return dummyHead.next;
-	    }
+    public ListNode sortList(ListNode head) {
+        if(head == null || head.next == null) return head;
+        //get the length of list
+        int len = 0;
+        ListNode cur = head;
+        while(cur!=null){
+            len++;
+            cur = cur.next;
+        }
+        //bottom-up merge
+        ListNode dummyHead = new ListNode(0);
+        dummyHead.next = head;
+        for(int step = 1; step < len; step=step*2){
+            ListNode left = dummyHead;
+            ListNode right = left;
+            while(left.next!=null){
+                for(int j = step; j>0 && right.next!=null; j--)
+                    right = right.next;
+                left = merge(left, right, step);
+                right = left;
+            }
+        }
+        return dummyHead.next;
+    }
+    public ListNode merge(ListNode left, ListNode right, int step){
+        if(right.next == null)
+            return right;
+        ListNode newLeft = right;
+        for(int i = step; i > 0 && newLeft.next!=null; i--)
+            newLeft = newLeft.next;
+        ListNode nextFirst = newLeft.next;
+        newLeft.next = null;
+        
+        ListNode cur = left;
+        ListNode lnode = left.next;
+        ListNode rnode = right.next;
+        right.next = null;
+        while(lnode!= null && rnode != null){
+            if(lnode.val < rnode.val){
+                cur.next = lnode;
+                lnode = lnode.next;
+                cur = cur.next;
+                cur.next = null;
+            }
+            else{
+                cur.next = rnode;
+                rnode = rnode.next;
+                cur = cur.next;
+                cur.next = null;
+            }
+        }
+        if(lnode == null)
+            cur.next = rnode;
+        else
+            cur.next = lnode;
+        if(nextFirst != null){
+            while(cur.next != null)
+                cur = cur.next;
+            cur.next = nextFirst;
+            return cur;
+        }
+        return newLeft;
+    }
 }

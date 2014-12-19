@@ -16,5 +16,18 @@ public class ReversWords{
         //if (sb.charAt(sb.length()-1) == ' ') 
         //    sb.deleteCharAt(sb.length()-1); 
         return result; 
-    } 
+    }
+    //second time
+    public String reverseWords2(String s) {
+        if(s == null) return s;
+        s = s.trim();
+        if(s.length() == 0) return s;
+        String[] words = s.split(" ");
+        StringBuffer sb = new StringBuffer();
+        for(int i = words.length-1; i>=0; i--)
+            if(words[i].length() > 0)
+                sb.append(words[i]+" ");
+        s = sb.toString();
+        return s.trim();
+    }
 }

@@ -57,4 +57,30 @@ public class InsertionSortList {
 	        }
 	        return dummyHead.next;
 	    }
+	//3rd time
+	public ListNode insertionSortList3(ListNode head) {
+        ListNode dummyHead = new ListNode(0);
+        ListNode cur = head;
+        ListNode next = null;
+        while(cur != null){
+            next = cur.next;
+            cur.next = null;
+            dummyHead = insert(dummyHead, cur);
+            cur = next;
+        }
+        return dummyHead.next;
+    }
+    private ListNode insert(ListNode h, ListNode c){
+        ListNode a = h;
+        while(a.next != null && a.next.val < c.val)
+            a = a.next;
+        if(a.next != null){
+            ListNode tmp = a.next;
+            a.next = c;
+            c.next = tmp;
+        }else{
+            a.next = c;
+        }
+        return h;
+    }
 }

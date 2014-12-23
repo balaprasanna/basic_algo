@@ -23,4 +23,22 @@ public class WordBreak {
 	            }
 	        return seg[len-1];
 	    }
+	 //second attemp, need reviewing
+	 public boolean wordBreak2(String s, Set<String> dict) {
+	        if(s == null || s.length() == 0) return false;
+	        if(dict.size() == 0) return false;
+	        boolean[] ret = new boolean[s.length()];
+	        for(int i = 0; i < s.length();i++){
+	            if(dict.contains(s.substring(0,i+1)))
+	                ret[i] = true;
+	            else{
+	                for(int j = i-1; j >=0; j--)
+	                    if(ret[j] && dict.contains(s.substring(j+1, i+1))){
+	                        ret[i] = true;
+	                        break;
+	                    }
+	            }
+	        }
+	        return ret[s.length()-1];
+	    }
 }

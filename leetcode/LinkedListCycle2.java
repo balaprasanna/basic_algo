@@ -48,4 +48,23 @@ public class LinkedListCycle2 {
         }
         return null;
     }
+	//second attempt, worked it out myself, bravo
+	public ListNode detectCycle2(ListNode head) {
+	        if(head == null) return null;
+	        ListNode s = head, f = head;
+	        while(f.next != null && f.next.next != null){
+	            s = s.next;
+	            f = f.next.next;
+	            if(s == f) {
+	                ListNode cur = head;
+	                while(cur != s){
+	                    cur = cur.next;
+	                    s = s.next;
+	                }
+	            return cur;
+	            }
+	        }
+	        return null;
+	        
+	}
 }

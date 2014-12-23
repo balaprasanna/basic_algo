@@ -23,4 +23,36 @@ public class WordBreak2 {
         }
         return validMap.get(0);
     }
+	//second attemp
+
+	    private List<String> ret;
+	    private List<List<Integer>> traceback; 
+	    public List<String> wordBreak2(String s, Set<String> dict) {
+	        ret =  new ArrayList<String>();
+	        traceback =  new ArrayList<List<Integer>>(s.length());
+	        for(int i = 0; i < s.length(); i++){
+	            traceback.add(new ArrayList<Integer>());
+	            if(dict.contains(s.substring(0,i+1)))
+	                traceback.get(i).add(-1);
+	            for(int j = i-1; j >=0; j--)
+	                if(traceback.get(j).size()>0 && dict.contains(s.substring(j+1, i+1)))
+	                    traceback.get(i).add(j);
+	        }
+	        StringBuffer sb = new StringBuffer(s);
+	        if(traceback.get(s.length()-1).size() == 0) return ret;
+	        gen(s.length()-1, s);
+	        return ret;
+	    }
+	    private void gen(int i, String s){
+	        StringBuffer sb = new StringBuffer(s);
+	        for(int a : traceback.get(i)){
+	            if(a == -1)
+	                ret.add(s);
+	            else{
+	                sb.insert(a+1, ' ');
+	                gen(a, sb.toString());
+	                sb.deleteCharAt(a+1);
+	            }
+	        }
+	    }
 }
